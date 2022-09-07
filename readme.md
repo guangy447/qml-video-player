@@ -3,7 +3,7 @@ This is a video player coded by qt/qml
 ## technical description
 
 - qt version :
-	Qt 6.3.1
+	Qt 6.3.1 - the latest version
 - tested on android 7, android 11, windows 10
 
 ## requirements
