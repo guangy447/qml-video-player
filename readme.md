@@ -1,5 +1,11 @@
 This is a video player coded by qt/qml
 
+## technical description
+
+- qt version :
+	Qt 6.3.1
+- tested on android 7, android 11, windows 10
+
 ## requirements
 
 - Loads a video file from File Picker dialog
@@ -8,8 +14,9 @@ This is a video player coded by qt/qml
 - Prevent phone from getting screen auto-locked while the video is playing
 - Ability to float and drag the video player within the window
 
-## technical description
+## details
+- Implemented all UI components :
+	Button, FileBrowser, Slider ...
+- Customized ScreenLock component to prevent auto screen-lock on android platform
+- Added AndroidManifest.xml file to manage permissions
 
-- qt version
-	Qt 6.3.1
-- tested on windows, android
