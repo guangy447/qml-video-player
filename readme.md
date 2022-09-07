@@ -8,7 +8,7 @@ This is a video player coded by qt/qml
 - Prevent phone from getting screen auto-locked while the video is playing
 - Ability to float and drag the video player within the window
 
-##technical description
+## technical description
 
 - qt version
 	Qt 6.3.1
