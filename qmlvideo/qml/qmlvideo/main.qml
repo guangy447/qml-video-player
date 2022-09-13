@@ -18,33 +18,6 @@ Rectangle {
         property int margins: 5
     }
 
-    Loader {
-        id: performanceLoader
-
-        Connections {
-            target: inner
-            function onVisibleChanged() {
-                if (performanceLoader.item)
-                    performanceLoader.item.enabled = !inner.visible
-            }
-            ignoreUnknownSignals: true
-        }
-
-        function init() {
-            var enabled = root.perfMonitorsLogging || root.perfMonitorsVisible
-            source = enabled ? "../performancemonitor/PerformanceItem.qml" : ""
-        }
-
-        onLoaded: {
-            item.parent = root
-            item.anchors.fill = root
-            item.logging = root.perfMonitorsLogging
-            item.displayed = root.perfMonitorsVisible
-            item.enabled = false
-            item.init()
-        }
-    }
-
     onSource1Changed: {
         sceneDrag.source1 = root.source1;
         sceneDrag.content.initialize();
@@ -140,10 +113,6 @@ Rectangle {
         }
     }
 
-    Loader {
-        id: sceneLoader
-    }
-
     Connections {
         id: videoFramePaintedConnection
         function onVideoFramePainted() {
@@ -156,15 +125,7 @@ Rectangle {
     FileBrowser {
         id: fileBrowser1
         anchors.fill: root
-        onFolderChanged: fileBrowser2.folder = folder
         Component.onCompleted: fileSelected.connect(root.openFile1)
-    }
-
-    FileBrowser {
-        id: fileBrowser2
-        anchors.fill: root
-        onFolderChanged: fileBrowser1.folder = folder
-//        Component.onCompleted: fileSelected.connect(root.openFile2)
     }
 
     function openFile1(path) {
@@ -181,14 +142,7 @@ Rectangle {
 
     // Called from main() once root properties have been set
     function init() {
-        performanceLoader.init()
         fileBrowser1.folder = videoPath
-        fileBrowser2.folder = videoPath
-    }
-
-    function qmlFramePainted() {
-        if (performanceLoader.item)
-            performanceLoader.item.qmlFramePainted()
     }
 
     function closeScene() {

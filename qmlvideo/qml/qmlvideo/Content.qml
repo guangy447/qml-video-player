@@ -19,7 +19,11 @@ Rectangle {
     signal error
     signal videoFramePainted
 
-    Loader {
+//    Loader {
+//        id: contentLoader
+//    }
+
+    VideoItem {
         id: contentLoader
     }
 
@@ -59,27 +63,23 @@ Rectangle {
 
     function initialize() {
         if ("video" == contentType) {
-            contentLoader.source = "VideoItem.qml"
-            if (Loader.Error == contentLoader.status) {
-                contentLoader.source = "VideoDummy.qml"
-                dummy = true
-            }
-            contentLoader.item.volume = volume
+//            contentLoader.mediaSource = "VideoItem.qml"
+//            if (Loader.Error == contentLoader.status) {
+//                contentLoader.source = "VideoDummy.qml"
+//                dummy = true
+//            }
+            contentLoader.volume = volume
         } else if ("camera" == contentType) {
-            contentLoader.source = "CameraItem.qml"
-            if (Loader.Error == contentLoader.status) {
-                contentLoader.source = "CameraDummy.qml"
-                dummy = true
-            }
+//            contentLoader.mediaSource = "CameraItem.qml"
         } else {
             console.log("[qmlvideo] Content.initialize: error: invalid contentType")
         }
-        if (contentLoader.item) {
-            contentLoader.item.sizeChanged.connect(updateRootSize)
-            contentLoader.item.parent = root
-            contentLoader.item.width = root.width
-            framePaintedConnection.target = contentLoader.item
-            errorConnection.target = contentLoader.item
+        if (contentLoader) {
+            contentLoader.sizeChanged.connect(updateRootSize)
+            contentLoader.parent = root
+            contentLoader.width = root.width
+            framePaintedConnection.target = contentLoader
+            errorConnection.target = contentLoader
             if (root.autoStart)
                 root.start()
         }
@@ -87,32 +87,32 @@ Rectangle {
     }
 
     function start() {
-        if (contentLoader.item) {
+        if (contentLoader) {
             if (root.contentType == "video")
-                contentLoader.item.mediaSource = root.source
-            contentLoader.item.start()
+                contentLoader.mediaSource = root.source
+            contentLoader.start()
             screenLock.keepScreenOn(true)
             root.started = 2
         }
     }
 
     function pause() {
-        if (contentLoader.item) {
-            contentLoader.item.pause()
+        if (contentLoader) {
+            contentLoader.pause()
             screenLock.keepScreenOn(false)
             root.started = 1
         }
     }
 
     function stop() {
-        if (contentLoader.item) {
-            contentLoader.item.stop()
+        if (contentLoader) {
+            contentLoader.stop()
             if (root.contentType == "video")
-                contentLoader.item.mediaSource = ""
+                contentLoader.mediaSource = ""
             root.started = 0
         }
     }
 
-    function contentItem() { return contentLoader.item }
+    function contentItem() { return contentLoader }
     function updateRootSize() { root.height = contentItem().height }
 }

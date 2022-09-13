@@ -7,13 +7,14 @@ Scene {
 
     Rectangle {
         id: background
-        x: (parent.width - width) / 2
+//        x: (parent.width - width) / 2
+        x: 0
         y: (parent.height - height) / 2
 
         Content {
             id: content
             anchors.centerIn: parent
-            width: sceneRoot.contentWidth
+            width: sceneRoot.contentWidth / 2
             contentType: sceneRoot.contentType
             source: sceneRoot.source1
             volume: sceneRoot.volume
@@ -24,6 +25,12 @@ Scene {
     MouseArea {
         anchors.fill: parent
         drag.target: background
+        z: 10000
+        onDoubleClicked: {
+            content.width = content.width > sceneRoot.contentWidth / 2
+            ? sceneRoot.contentWidth / 2
+            : sceneRoot.contentWidth
+        }
     }
 
     function start() {
